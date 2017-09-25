@@ -10,6 +10,7 @@ import {permissionList,deletePermission} from '../../ajax/userRole'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {message,Alert,Popconfirm ,Modal, Form, Dropdown,Input,Menu, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Table ,Badge,Card} from 'antd'
+import '../../style/base.less'
 const FormItem = Form.Item
 
 @connect(
@@ -221,7 +222,7 @@ export default class permission_list extends Component {
         const { getFieldDecorator } = this.props.form
         const hasSelected = selectedRowKeys.length > 0;
         return (
-            <div style={{height:'100%',overflow:'auto',marginTop:'5px'}}>
+            <div className="pageStyle" >
                 <div className="custom-filter-dropdown">
                     <Input
                         placeholder="输入权限名称"
@@ -277,7 +278,7 @@ export default class permission_list extends Component {
                     </Modal>
                     {/*---------------*/}
                 </div>
-                <div> <Card style={{marginTop:'5px',height:'100%'}}>
+                <div> <Card  className="cardStyle">
                     <Table  bordered rowSelection={rowSelection} columns={columns} dataSource={this.state.data} pagination={{ pageSize: 8 }} />
                 </Card>
                 </div></div>

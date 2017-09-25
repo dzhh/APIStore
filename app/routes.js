@@ -91,6 +91,31 @@ const permissionAllocation = (location, cb) => {
         cb(null, require('./pages/permission/permission_allocation').default)
     }, 'permission_allocation')
 }
+const serviceRegister = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./pages/service/service_register').default)
+    }, 'service_register')
+}
+const serviceManage = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./pages/service/service_manage').default)
+    }, 'service_manage')
+}
+const serviceReview = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./pages/service/service_review').default)
+    }, 'service_review')
+}
+const servicePermission = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./pages/service/service_permission').default)
+    }, 'service_permission')
+}
+const serviceQuality = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./pages/service/service_quality').default)
+    }, 'service_quality')
+}
 // const Register = (location, cb) => {
 //     require.ensure([], require => {
 //         cb(null, require('./pages/register/register').default)
@@ -136,6 +161,13 @@ const routes = (
             <Route path="/role/allocationLists" getComponent={roleAllocation} />
             <Route path="/permission/permissionLists" getComponent={permissionList} />
             <Route path="/permission/rolePermissionAllocation" getComponent={permissionAllocation} />
+            <Route path="/service/register" getComponent={serviceRegister} />
+            <Route path="/service/manage" getComponent={serviceManage} />
+            <Route path="/service/review" getComponent={serviceReview} />
+            <Route path="/service/permission" getComponent={servicePermission} />
+            <Route path="/service/quality" getComponent={serviceQuality} />
+
+
         </Route>
         <Route path="/login" getComponent={Login}></Route>
         <Route path="/register" component={Register}></Route>

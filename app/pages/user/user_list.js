@@ -9,6 +9,7 @@ import { hashHistory } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { routerActions } from 'react-router-redux'
 import {message,Card,Popconfirm ,Modal, Form, Dropdown,Input,Menu, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Table ,Badge} from 'antd'
+import '../../style/base.less'
 const FormItem = Form.Item
 
 @connect(
@@ -235,10 +236,9 @@ export default class user_list extends Component {
             onChange: this.onSelectChange,
         };
 
-        const { getFieldDecorator } = this.props.form
         const hasSelected = selectedRowKeys.length > 0;
         return (
-            <div style={{height:'100%',overflow:'auto',marginTop:'5px'}}>
+            <div className="pageStyle" >
                 <div className="custom-filter-dropdown">
                     <Input
                         placeholder="输入账号"
@@ -259,7 +259,7 @@ export default class user_list extends Component {
 
                     {/*---------------*/}
                 </div>
-                      <Card style={{marginTop:'5px',height:'100%'}}>
+                      <Card   className="cardStyle">
                     <Table  bordered rowSelection={rowSelection} columns={columns} dataSource={this.state.data} pagination={{ pageSize: 8 }} />
                       </Card>
                 </div>

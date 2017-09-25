@@ -9,6 +9,7 @@ import { routerActions } from 'react-router-redux'
 import { connect } from 'react-redux'
 import {message,Card,Popconfirm ,Modal, Form, Dropdown,Input,Menu, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Table ,Badge} from 'antd'
 import { getOnlineUserList,shotOffOnlineUser} from '../../ajax/user'
+import '../../style/base.less'
 const FormItem = Form.Item
 @connect(
     (state, props) => ({
@@ -30,7 +31,6 @@ export default class online_user extends Component {
             auser:{}
 
         }
-
 
         this.showModal  = this.showModal.bind(this);
 
@@ -93,8 +93,6 @@ export default class online_user extends Component {
                 message.warning(res.msg)
             }
         })
-        // this.props.config.ONLINEUSER[index].status = 0;
-        // this.setState({data:this.props.config.ONLINEUSER}) ;
     }
 
 
@@ -127,13 +125,6 @@ export default class online_user extends Component {
             title: '会话最后活动时间',
             dataIndex: 'lastActionTime',
         },
-        //     {
-        //     title: '状态',
-        //     dataIndex: 'status',
-        //     render: (text, record, index) => {
-        //         return (text > 0? ("有效"):("已踢出"));
-        //     }
-        // },
             {
                 title: '操作',
                 dataIndex: 'operation',
@@ -151,28 +142,6 @@ export default class online_user extends Component {
                                     >详情</a>
                                 </div>
 
-                                       // ( record.status > 0 ?
-                                       //         (<div> <Popconfirm title={title_action} onConfirm={() => this.deleteLogin(index)}>
-                                       //         <a href="#">踢出</a>
-                                       //        </Popconfirm>
-                                       //             <span className="ant-divider" />
-                                       //                 <a onClick={() => this.showModal(record)}
-                                       //                 >详情</a>
-                                       //         </div>
-                                       //      ):
-                                       //      (<div> <Popconfirm title={title_action} onConfirm={() => this.allowLogin(index)}>
-                                       //              <a href="#">激活</a>
-                                       //          </Popconfirm>
-                                       //              <span className="ant-divider" />
-                                       //
-                                       //              <a onClick={() => this.showModal(record)}
-                                       //                 >详情</a>
-                                       //
-                                       //          </div>
-                                       //      )
-                                       // )
-
-
                             ) : null
                     );
                 },
@@ -182,7 +151,7 @@ export default class online_user extends Component {
         const auser = this.state.auser;
         return (
 
-                <div style={{height:'100%',overflow:'auto',marginTop:'5px'}}>
+                <div  className="pageStyle">
                     <Modal
                         visible={this.state.visible}
                         title="Session详情"
@@ -202,9 +171,6 @@ export default class online_user extends Component {
                             <FormItem label="会话最后活动时间">
                                 <Input value={auser.lastActionTime}   />
                             </FormItem>
-                            {/*<FormItem label="Session 状态">*/}
-                                {/*<Input value={auser.status>0?"有效":"已踢出"}  disabled />*/}
-                            {/*</FormItem>*/}
                             <FormItem label="账号">
                                 <Input value={auser.userName}   />
                             </FormItem>
@@ -214,7 +180,7 @@ export default class online_user extends Component {
 
                         </Form>
                     </Modal>
-                    <Card style={{marginTop:'5px',height:'100%'}}>
+                    <Card  className="cardStyle">
                     <Table  bordered columns={columns} dataSource={this.state.data} pagination={{ pageSize: 8 }} />
                    </Card>
                 </div>
