@@ -273,7 +273,7 @@ export default class permission_allocation extends Component {
         const hasSelected = selectedRowKeys.length > 0;
         return (
             <div className="pageStyle" >
-
+                <Card  title="权限分配" className="cardStyle">
                 <div className="custom-filter-dropdown">
                     <Input
                         placeholder="输入角色名称"
@@ -321,7 +321,7 @@ export default class permission_allocation extends Component {
                     </Modal>
                     {/*---------------*/}
                 </div>
-                <Card   className="cardStyle">
+
                 <div>
                     <Table  bordered rowSelection={rowSelection}   columns={columns} dataSource={this.state.data} pagination={{ pageSize: 8 }} />
 

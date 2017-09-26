@@ -3,12 +3,13 @@
  */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {message,Modal, Form, Dropdown,Input,Menu, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Table ,Badge} from 'antd'
+import {message,Modal, Form, Dropdown,Input,Menu, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Table ,Badge,Card} from 'antd'
 import moment from 'moment';
 import { hashHistory } from 'react-router'
 import { routerActions } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 import { myPermission } from '../../ajax/user'
+import '../../style/base.less'
 @connect(
     (state, props) => ({
         config: state.config,
@@ -33,7 +34,7 @@ export default class my_permissions extends Component {
             myPermission(user, (res) => {
                 console.log("++++++" + res);
                 if (res.ospState == 200) {
-                    this.setState({data: res.data.myPermission})
+                    this.setState({data: JSON.parse(res.data.myPermission)})
                 } else if (res.ospState == 401) {
                     message.warning("没有登录或登录时间过期，请重新登录", 2, () => {
                         hashHistory.push('/login')
@@ -57,10 +58,11 @@ export default class my_permissions extends Component {
 
         return (
                 (
-                    <div style={{height:'100%',overflow:'auto',marginTop:'5px'}}>
+                    <div className="pageStyle">
+                        <Card title="我的权限"  className="cardStyle">
                       {this.state.data.map((item, index) => {
                           const menu = (
-                              <Menu>
+                              <Menu style={{overflow:"auto"}}>
                                   {item.permissions.map((item_chileren, index_1) => {
                                       return <Menu.Item style={{marginLeft:"2%"}} key={item_chileren.actionId|item_chileren.menuId}> <Icon type="user" />{item_chileren.menuName||item_chileren.actionName}</Menu.Item>
                                   })
@@ -86,6 +88,7 @@ export default class my_permissions extends Component {
                           </Dropdown></div>
                       })
                       }
+                        </Card>
                   </div>
               )
 

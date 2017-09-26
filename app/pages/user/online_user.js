@@ -180,7 +180,7 @@ export default class online_user extends Component {
 
                         </Form>
                     </Modal>
-                    <Card  className="cardStyle">
+                    <Card title="在线用户" className="cardStyle">
                     <Table  bordered columns={columns} dataSource={this.state.data} pagination={{ pageSize: 8 }} />
                    </Card>
                 </div>

@@ -7,6 +7,7 @@ import { hashHistory } from 'react-router'
 import { connect } from 'react-redux'
 import {message, Form, Input, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Card } from 'antd';
 import { getUserMessage } from '../../ajax/user'
+import '../../style/base.less'
 const FormItem = Form.Item
 @connect(
     (state, props) => ({
@@ -64,7 +65,8 @@ export default class homepage extends Component {
 
          const user = this.state.user;
         return (
-            <div style={{height:'100%',overflow:'auto',marginTop:'5px'}}>
+            <div  className="pageStyle">
+                <Card title="个人资料"  className="cardStyle">
             <Form onSubmit={this.handleSubmit}>
 
                 <FormItem
@@ -100,7 +102,7 @@ export default class homepage extends Component {
 
                 </FormItem>
 
-            </Form></div>
+            </Form></Card></div>
         );
     }
 

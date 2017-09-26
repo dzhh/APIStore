@@ -239,6 +239,7 @@ export default class user_list extends Component {
         const hasSelected = selectedRowKeys.length > 0;
         return (
             <div className="pageStyle" >
+                <Card title="用户列表"  className="cardStyle">
                 <div className="custom-filter-dropdown">
                     <Input
                         placeholder="输入账号"
@@ -256,10 +257,8 @@ export default class user_list extends Component {
                             style={{marginLeft:"10px",backgroundColor:'#EE0000',color:'white'}}
                     >
                         删除</Button>
-
-                    {/*---------------*/}
                 </div>
-                      <Card   className="cardStyle">
+
                     <Table  bordered rowSelection={rowSelection} columns={columns} dataSource={this.state.data} pagination={{ pageSize: 8 }} />
                       </Card>
                 </div>

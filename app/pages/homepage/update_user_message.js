@@ -3,12 +3,13 @@
  */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Input,message, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd'
+import { Form, Input,message, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Card } from 'antd'
 import moment from 'moment';
 import { hashHistory } from 'react-router'
 import { routerActions } from 'react-router-redux'
 import { bindActionCreators } from 'redux'
 import { getUserMessage,updateUserMessage } from '../../ajax/user'
+import '../../style/base.less'
 const FormItem = Form.Item
 var user_EmailTemp=""
 @connect(
@@ -126,7 +127,8 @@ export default class update_user_message extends Component {
             buttonShow = true;
         }
         return (
-            <div style={{height:'100%',overflow:'auto',marginTop:'5px'}}>
+            <div className="pageStyle">
+                <Card title="资料修改"  className="cardStyle">
             <Form onSubmit={this.handleSubmit}>
                 <FormItem
                 {...formItemLayout}
@@ -174,7 +176,7 @@ export default class update_user_message extends Component {
                 <FormItem {...tailFormItemLayout}>
                     <Button disabled={buttonShow} type="primary" htmlType="submit" size="large">修改</Button>
                 </FormItem>
-            </Form></div>
+            </Form></Card></div>
         );
     }
 

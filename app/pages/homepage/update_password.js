@@ -3,7 +3,7 @@
  */
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import {message, Form, Input, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button } from 'antd'
+import {message, Form, Input, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Card } from 'antd'
 import moment from 'moment';
 import { hashHistory } from 'react-router'
 import { routerActions } from 'react-router-redux'
@@ -11,6 +11,7 @@ import { bindActionCreators } from 'redux'
 import { updateUserPwd } from '../../ajax/user'
 import $ from 'jquery'
 import {getLogout } from '../../actions/login'
+import '../../style/base.less'
 const FormItem = Form.Item
 
 @connect(
@@ -131,7 +132,8 @@ export default class update_password extends Component {
         };
 
 
-        return (   <div style={{height:'100%',overflow:'auto',marginTop:'5px'}}>
+        return (   <div className="pageStyle">
+            <Card title="密码修改"  className="cardStyle">
             <Form onSubmit={this.handleSubmit}>
                 <FormItem
                     {...formItemLayout}
@@ -192,7 +194,7 @@ export default class update_password extends Component {
                 <FormItem {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit" size="large">修改</Button>
                 </FormItem>
-            </Form></div>
+            </Form></Card></div>
         );
     }
 
