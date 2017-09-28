@@ -61,18 +61,28 @@ export default class my_permissions extends Component {
                     <div className="pageStyle">
                         <Card title="我的权限"  className="cardStyle">
                       {this.state.data.map((item, index) => {
-                          const menu = (
-                              <Menu style={{overflow:"auto"}}>
-                                  {item.permissions.map((item_chileren, index_1) => {
-                                      return <Menu.Item style={{marginLeft:"2%"}} key={item_chileren.actionId|item_chileren.menuId}> <Icon type="user" />{item_chileren.menuName||item_chileren.actionName}</Menu.Item>
-                                  })
-                                  }
-                              </Menu>
+                          let menuClass;
+                          if(item.permissions.length>0){
+                              menuClass = 'menuLengths'
+                          }else{
+                              menuClass = 'menuLength'
+                          }
+                              const menu = (
+                                     <Menu className={menuClass}>
+                                      {
+                                          item.permissions.map((item_chileren, index_1) => {
+                                          return <Menu.Item style={{marginLeft:"2%"}} key={item_chileren.actionId|item_chileren.menuId}> <Icon type="user" />{item_chileren.menuName||item_chileren.actionName}</Menu.Item>
+                                      })
+                                      }
+                                  </Menu>
 
-                          );
+                              );
 
 
-                          return <div style={{marginLeft:"45%",marginRight:"42%"}}><Dropdown overlay={menu} trigger={['click']}>
+
+
+                          return <div style={{marginLeft:"45%",marginRight:"42%"}}>
+                              <Dropdown overlay={menu} trigger={['click']}>
                               <h2 className="ant-dropdown-link" href="#" style={{textAlign: 'left'}}>
                                   <div style={{textAlign:'left'}}><Icon type="user"/>{item.roleName}
                                       <Icon type="down"/>
