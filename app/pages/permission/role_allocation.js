@@ -89,7 +89,8 @@ export default class role_allocation extends Component {
             if (res.ospState == 200) {
                 res.data.defaultValue = res.data.defaultValue.split(',')
                 res.data.allRoleIds = res.data.allRoleIds.split(',')
-                this.setState({checkedList:res.data.defaultValue,options:res.data.ucRole,
+                this.setState({checkedList:res.data.defaultValue,
+                    options:res.data.ucRole,
                     plainOptions:res.data.allRoleIds,
                     selectId:record.userId,
                     visible: true,
@@ -255,7 +256,7 @@ export default class role_allocation extends Component {
                 dataIndex: 'operation',
                 render: (text, record, index) => {
                     return (
-                        this.state.data.length > 1 ?
+                        this.state.data.length > 0 ?
                                 (
                                     <a onClick={() => this.showModal(record)}>选择角色</a>
                                 )

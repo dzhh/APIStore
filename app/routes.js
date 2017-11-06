@@ -116,6 +116,21 @@ const serviceQuality = (location, cb) => {
         cb(null, require('./pages/service/service_quality').default)
     }, 'service_quality')
 }
+const serviceType = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./pages/service/service_type').default)
+    }, 'service_type')
+}
+const serviceEcode = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./pages/service/service_ecode').default)
+    }, 'service_ecode')
+}
+const serviceParameter = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('./pages/service/service_parameter').default)
+    }, 'service_parameter')
+}
 // const Register = (location, cb) => {
 //     require.ensure([], require => {
 //         cb(null, require('./pages/register/register').default)
@@ -149,7 +164,6 @@ const routes = (
         /*onEnter当路由进入即触发 子路由进入父路由不会触发*/
         <Route path="/" component={App} onEnter={isLogin}>
             <IndexRoute component={Welcome} />
-            {/*<Route path="/homePage" getComponent={homePage} />*/}
             <Route path="/user/userInfo" getComponent={homePage} />
             <Route path="/user/updateUserInfo" getComponent={updateUserMessage} />
             <Route path="/user/updateUserPsw" getComponent={updatePassword} />
@@ -166,7 +180,9 @@ const routes = (
             <Route path="/service/review" getComponent={serviceReview} />
             <Route path="/service/permission" getComponent={servicePermission} />
             <Route path="/service/quality" getComponent={serviceQuality} />
-
+            <Route path="/service/type" getComponent={serviceType} />
+            <Route path="/service/ecode" getComponent={serviceEcode} />
+            <Route path="/service/parameter" getComponent={serviceParameter} />
 
         </Route>
         <Route path="/login" getComponent={Login}></Route>

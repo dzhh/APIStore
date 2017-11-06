@@ -70,7 +70,7 @@ export default class my_permissions extends Component {
                               const menu = (
                                      <Menu className={menuClass}>
                                       {
-                                          item.permissions.map((item_chileren, index_1) => {
+                                          item.permissions.map((item_chileren, index_children) => {
                                           return <Menu.Item style={{marginLeft:"2%"}} key={item_chileren.actionId|item_chileren.menuId}> <Icon type="user" />{item_chileren.menuName||item_chileren.actionName}</Menu.Item>
                                       })
                                       }

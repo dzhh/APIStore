@@ -1,28 +1,30 @@
 /**
- * Created by kwx on 2017/9/22.
+ * Created by kwx on 2017/10/19.
  */
+
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import {message,Popconfirm ,Modal, Form, Dropdown,Input,Menu, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Table ,Badge,Card} from 'antd'
 import { bindActionCreators } from 'redux'
 import { hashHistory } from 'react-router'
 import { routerActions } from 'react-router-redux'
-import { connect } from 'react-redux'
-import {message,Card,Popconfirm ,Modal, Form, Dropdown,Input,Menu, Tooltip,DatePicker, Icon, Cascader, Select, Row, Col, Checkbox, Button,Table ,Badge} from 'antd'
+import {errorCodeList,serviceList,addErrorCode,deleteErrorCode} from '../../ajax/service'
 import '../../style/base.less'
-import {servicePackageList,savePackage,serviceList,deletePackage} from '../../ajax/service'
 const FormItem = Form.Item
 @connect(
     (state, props) => ({
         config: state.config,
+        logout:state.logout
     }),
     (dispatch) => ({ actions: bindActionCreators(routerActions, dispatch), dispatch: dispatch })
+
 )
 @Form.create({
     onFieldsChange(props, items) {
     },
 })
 
-
-export default class service_permission extends Component {
+export default class service_ecode extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -34,26 +36,54 @@ export default class service_permission extends Component {
             staticData: [],
             deleteIds:[],
             serviceList:[]
+
         }
 
+        this.onSelectChange = this.onSelectChange.bind(this);
+        this.onDelete  = this.onDelete .bind(this);
+
     }
-    //渲染前
+    //组件渲染之前
     componentWillMount() {
-        servicePackageList('',(res)=>{
+
+        errorCodeList('', (res) => {
             if (res.state == 200) {
-                res.data.packageList.map((item,index) => {
-                    item.key = item.packageId;
+                res.data.ecodeList.map((item,index) => {
+                    item.key = item.ecId;
                 })
-                this.setState({data:res.data.packageList,staticData:res.data.packageList})
+
+                this.setState({data:res.data.ecodeList,staticData:res.data.ecodeList})
                 console.log(res);
             } else {
                 message.warning(res.data.msg)
             }
         })
-
     }
+
+    //组件销毁时
     componentWillUnmount() {
 
+
+    }
+    deleteIds=(ids)=>{
+        this.setState({loading: true})
+        deleteErrorCode(ids.toString(), (res) => {
+            if (res.state == 200) {
+                res.data.ecodeList.map((item,index) => {
+                    item.key = item.ecId;
+                })
+                setTimeout(() => {
+                    this.setState({
+                        data:res.data.ecodeList,staticData:res.data.ecodeList,
+                        selectedRowKeys: [],
+                        deleteIds:[],
+                        loading: false,
+                    });
+                }, 1000);
+            }else {
+                message.warning(res.data.msg)
+            }
+        })
     }
     //展示弹出框
     showModal = () => {
@@ -65,28 +95,28 @@ export default class service_permission extends Component {
                 });
             }
         })
-
     }
     //弹出框点击ok
     handleOk = () => {
         this.props.form.validateFields((err, values) => {
             if(!err) {
-
-                let packages={}
-                packages.packageName = values.packageName
-                packages.packagePermission = values.packagePermission
-                packages.packagePrice = values.packagePrice
-                packages.packagePeakvalue = values.packagePeakValue
-                packages.serviceId = values.service_id
-                savePackage(packages, (res) => {
+                // console.log("验证成功"+values.roleName+values.systemcode)
+                let ecode={};
+                ecode.ecCode = values.eCode
+                ecode.ecType = values.ecType
+                ecode.ecReturn = values.ecReturn
+                ecode.ecReturnExplain = values.ecReturnExplain
+                ecode.serviceId = values.serviceId
+                addErrorCode(ecode, (res) => {
                     if (res.state == 200) {
                         this.setState({ loading: true });
-                        res.data.packageList.map((item,index) => {
-                            item.key = item.packageId;
+                        res.data.ecodeList.map((item,index) => {
+                            item.key = item.ecId;
                         })
                         setTimeout(() => {
                             this.setState({
-                                data:res.data.packageList,staticData:res.data.packageList,
+                                data:res.data.ecodeList,staticData:res.data.ecodeList,
+                                selectedRowKeys: [],
                                 loading: false,
                                 visible: false
                             });
@@ -105,39 +135,17 @@ export default class service_permission extends Component {
     handleCancel = () => {
         this.setState({ visible: false });
     }
-    deletePackage  = (index) => {
+    deleteEcode  = (index) => {
         let ids=[];
         ids.push(index)
         this.deleteIds(ids)
     }
     onDelete  = () => {
         if(this.state.selectedRowKeys == '') {
-            message.error('请选择要删除的套餐名称');
+            message.error('请选择要删除的错误码');
         }else {
             this.deleteIds(this.state.deleteIds)
         }
-    }
-    //删除
-    deleteIds=(ids)=>{
-        console.log('删除id'+ids);
-        this.setState({loading: true})
-        deletePackage(ids.toString(), (res) => {
-            if (res.state == 200) {
-                res.data.packageList.map((item,index) => {
-                    item.key = item.packageId;
-                })
-                setTimeout(() => {
-                    this.setState({
-                        data:res.data.packageList,staticData:res.data.packageList,
-                        selectedRowKeys: [],
-                        deleteIds:[],
-                        loading: false,
-                    });
-                }, 1000);
-            }else {
-                message.warning(res.data.msg)
-            }
-        })
     }
     //获得输入框的搜索的值
     onInputChange = (e) => {
@@ -149,13 +157,13 @@ export default class service_permission extends Component {
         console.log("每行"+selectedRows)
         let ids = [];
         selectedRows.map((item)=>{
-            ids.push(item.packageId)
+            ids.push(item.ecId)
         })
 
         this.setState({ selectedRowKeys})
 
         this.setState({ deleteIds:ids})
-        console.log("value==="+ this.state.deleteIds)
+       // console.log("value==="+ this.state.deleteIds)
     }
     //查询
     onSearch = () => {
@@ -163,7 +171,7 @@ export default class service_permission extends Component {
         const reg = new RegExp(searchText, 'gi');
         this.setState({
             data: this.state.staticData.map((record) => {
-                const match = record.packageName.match(reg);
+                const match = record.serviceName.match(reg);
 
                 if (!match) {
                     return null;
@@ -172,7 +180,7 @@ export default class service_permission extends Component {
                     ...record,
                     name: (
                         <span>
-              {record.packageName.split(reg).map((text, i) => (
+              {record.serviceName.split(reg).map((text, i) => (
                   i > 0 ? [<span className="highlight">{match[0]}</span>, text] : text
               ))}
             </span>
@@ -181,42 +189,49 @@ export default class service_permission extends Component {
             }).filter(record => !!record),
         });
     }
-
     render() {
 
-        const columns = [{
-            title: '服务名称',
-            dataIndex: 'serviceName',
-
-        }, {
-            title: '套餐名称',
-            dataIndex: 'packageName',
-        },{
-            title: '套餐权限	',
-            dataIndex: 'packagePermission',
-        },{
-            title: '套餐价格',
-            dataIndex: 'packagePrice',
-        },{
-            title: '套餐峰值',
-            dataIndex: 'packagePeakvalue',
-        },{
-            title: '操作',
-            dataIndex: 'operation',
-            render: (text, record, index) => {
-                let title_action = "删除"+record.packageName
-                return (
-                    this.state.data.length > 0 ?
-                        (
-                            ( <Popconfirm title={title_action} onConfirm={() => this.deletePackage(record.packageId)}>
-                                    <a href="#">删除</a>
-                                </Popconfirm>
-                            )
-                        ) : null
-                );
+        const columns = [
+            {
+                title: '服务名称',
+                dataIndex: 'serviceName',
             },
-        }
+            {
+
+            title: '错误码',
+            dataIndex: 'ecCode',
+            },
+            {
+                title: '错误码类型',
+                dataIndex: 'ecType',
+            },
+            {
+                title: '错误码返回',
+                dataIndex: 'ecReturn',
+            },
+            {
+                title: '错误码返回说明',
+                dataIndex: 'ecReturnExplain',
+            },
+
+            {
+                title: '操作',
+                dataIndex: 'operation',
+                render: (text, record, index) => {
+                    let title_action = "删除"+record.ecCode
+                    return (
+                        this.state.data.length > 0 ?
+                            (
+                                ( <Popconfirm title={title_action} onConfirm={() => this.deleteEcode(record.ecId)}>
+                                        <a href="#">删除</a>
+                                    </Popconfirm>
+                                )
+                            ) : null
+                    );
+                },
+            }
         ];
+
 
         const {loading,selectedRowKeys } = this.state;
         const rowSelection = {
@@ -226,12 +241,11 @@ export default class service_permission extends Component {
 
         const { getFieldDecorator } = this.props.form
         return (
-
             <div  className="pageStyle" >
-                <Card title="服务套餐"  className="cardStyle">
+                <Card title="错误码" className="cardStyle">
                     <div className="custom-filter-dropdown">
                         <Input
-                            placeholder="输入套餐名称"
+                            placeholder="输入服务名称"
                             value={this.state.searchText}
                             onChange={this.onInputChange}
                             onPressEnter={this.onSearch}
@@ -262,39 +276,11 @@ export default class service_permission extends Component {
                             ]}
                         >
                             <Form layout="vertical">
-                                <FormItem label="套餐名称">
-                                    {getFieldDecorator('packageName', {
-                                        rules: [{ required: true, message: '请输入套餐名称!' }],
-                                    })(
-                                        <Input placeholder="请输入套餐名称!"/>
-                                    )}
-                                </FormItem>
-                                <FormItem label="套餐权限">
-                                    {getFieldDecorator('packagePermission', {
-                                        rules: [{ required: true, message: '请输入套餐权限!' }],
-                                    })(
-                                        <Input placeholder="请输入分类权限!"/>
-                                    )}
-                                </FormItem>
-                                <FormItem label="套餐价格">
-                                    {getFieldDecorator('packagePrice', {
-                                        rules: [{ required: true, message: '请输入套餐价格!' }],
-                                    })(
-                                        <Input placeholder="请输入分类价格!"/>
-                                    )}
-                                </FormItem>
-                                <FormItem label="套餐峰值">
-                                    {getFieldDecorator('packagePeakValue', {
-                                        rules: [{ required: true, message: '请输入套餐峰值!' }],
-                                    })(
-                                        <Input placeholder="请输入分类峰值!"/>
-                                    )}
-                                </FormItem>
                                 <FormItem label="服务名称">
-                                    {getFieldDecorator('service_id', {
-                                        rules: [{ required: true, message: '请选择服务!' }],
+                                    {getFieldDecorator('serviceId', {
+                                        rules: [{ required: true, message: '请选择服务名称!' }],
                                     })(
-                                        <Select  placeholder="请选择服务">
+                                        <Select  showSearch  placeholder="请选择或输入服务名称">
                                             {
                                                 this.state.serviceList.map((item, index) => {
                                                     return <Option value={item.serviceId}>{item.serviceName}</Option>
@@ -304,13 +290,43 @@ export default class service_permission extends Component {
                                     )}
                                 </FormItem>
 
+                                <FormItem label="错误码">
+                                    {getFieldDecorator('eCode', {
+                                        rules: [{ required: true, message: '请输入错误码!' }],
+                                    })(
+                                        <Input placeholder="请输入错误码!"/>
+                                    )}
+                                </FormItem>
+                                <FormItem label="错误码类型">
+                                    {getFieldDecorator('ecType', {
+                                        rules: [{ required: true, message: '请输入错误码类型!' }],
+                                    })(
+                                        <Input placeholder="请输入错误码类型!"/>
+                                    )}
+                                </FormItem>
+                                <FormItem label="错误码返回">
+                                    {getFieldDecorator('ecReturn', {
+                                        rules: [{ required: true, message: '请输入错误码返回!' }],
+                                    })(
+                                        <Input placeholder="请输入错误码返回!"/>
+                                    )}
+                                </FormItem>
+                                <FormItem label="错误码返回说明">
+                                    {getFieldDecorator('ecReturnExplain', {
+                                        rules: [{ required: true, message: '请输入错误码返回说明!' }],
+                                    })(
+                                        <Input placeholder="请输入错误码返回说明!"/>
+                                    )}
+                                </FormItem>
                             </Form>
                         </Modal>
                         {/*---------------*/}
                     </div>
-                    <Table  bordered rowSelection={rowSelection}  columns={columns} dataSource={this.state.data} pagination={{ pageSize: 8 }} />
-                </Card>
-            </div>
+
+                    <div>
+                        <Table  bordered rowSelection={rowSelection} columns={columns} dataSource={this.state.data} pagination={{ pageSize: 8 }} />
+
+                    </div> </Card></div>
         );
     }
 }
