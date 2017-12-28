@@ -292,7 +292,7 @@ export default class service_manage extends Component {
                     </Form>
                 </Modal>
                 {/*---------------*/}
-                <Card title="服务管理"  className="cardStyle">
+                <Card title="服务列表"  className="cardStyle">
                     <div className="custom-filter-dropdown">
                         <Input
                             placeholder="输入服务名称"

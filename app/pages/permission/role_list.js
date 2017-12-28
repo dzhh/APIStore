@@ -241,7 +241,7 @@ export default class role_list extends Component {
         const hasSelected = selectedRowKeys.length > 0;
         return (
             <div  className="pageStyle" >
-                <Card title="权限列表" className="cardStyle">
+                <Card title="角色列表" className="cardStyle">
                 <div className="custom-filter-dropdown">
                     <Input
                         placeholder="输入角色名称"

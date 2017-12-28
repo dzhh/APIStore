@@ -51,3 +51,8 @@ export const parameterList = createAjaxAction(ajaxFun.fetchJSONByPost('/service/
 export const addParameter = createAjaxAction(ajaxFun.fetchJSONByPost('/service/addParameter',apiStore));
 //删除参数
 export const deleteParameter = createAjaxAction(ajaxFun.fetchJSONByPost('/service/deleteParameter',apiStore));
+
+//待办任务列表
+export const todoList = createAjaxAction(ajaxFun.fetchJSONByPost('/service/todoList',apiStore));
+//处理待办任务
+export const dealTodoTask = createAjaxAction(ajaxFun.fetchJSONByPost('/service/dealTodoTask',apiStore));

@@ -89,6 +89,7 @@ export default class service_register extends Component {
                 service.serviceIntroduce = values.service_introduce;
                 service.serviceRequestMethod = values.service_request_method;
                 service.serviceInterfaceAddress = values.service_interface_address;
+                service.userId = sessionStorage.getItem('userId');
                 let request_data = {};
                 request_data.asService = service
                 request_data.asParameter = parms
